@@ -4,7 +4,7 @@
  * @param {*} fn
  * @param {*} delay
  */
-const throttle = (fun, delay) => {
+export const throttle = (fun, delay) => {
     let timer = null;
     // 防止最后一次不触发
     let timerPro = null;

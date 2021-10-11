@@ -48,27 +48,3 @@ MyPromise.prototype.then = function (onResolved) {
         });
     });
 };
-// 实例
-new MyPromise(resolve => {
-    delay(() => {
-        const data = {
-            msg: 'sucess',
-            data: (new Date().getTime() + ' ').slice(-5, -1)
-        };
-        resolve(data);
-    }, 300);
-})
-    .then(result => {
-        console.log(result.data, 'MyPromise1');
-        // 必须return 新的MyPromise
-        return new MyPromise(resolve => {
-            delay(() => {
-                const data = {
-                    msg: 'sucess',
-                    data: (new Date().getTime() + ' ').slice(-5, -1)
-                };
-                resolve(data);
-            }, 300);
-        });
-    })
-    .then(result => console.log(result.data, 'MyPromise2'));

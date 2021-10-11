@@ -5,7 +5,7 @@
  * @param {*} stack
  * @param {*} childName
  */
-const dfsForEach = (tree, callback, nodes = [], childName = 'children') => {
+export const dfsForEach = (tree, callback, nodes = [], childName = 'children') => {
     nodes.push(tree);
     callback(tree, nodes);
     const children = tree[childName] || [];
@@ -22,7 +22,7 @@ const dfsForEach = (tree, callback, nodes = [], childName = 'children') => {
  * @param {*} nodes
  * @param {*} childName
  */
-const bfsForEach = (tree, callback, nodes = [], childName = 'children', queue = []) => {
+export const bfsForEach = (tree, callback, nodes = [], childName = 'children', queue = []) => {
     queue.push(...tree);
     const node = queue.shift();
     if (node) {
@@ -43,7 +43,7 @@ const bfsForEach = (tree, callback, nodes = [], childName = 'children', queue = 
  * @param {*} nodes
  * @param {*} childName
  */
-const dfsForEachStack = (tree, callback, nodes = [], childName = 'children') => {
+export const dfsForEachStack = (tree, callback, nodes = [], childName = 'children') => {
     const stack = [tree];
     while (stack.length) {
         const node = stack.pop();
@@ -62,7 +62,7 @@ const dfsForEachStack = (tree, callback, nodes = [], childName = 'children') => 
  * @param {*} nodes
  * @param {*} childName
  */
-const bfsForEachQueue = (tree, callback, nodes = [], childName = 'children') => {
+export const bfsForEachQueue = (tree, callback, nodes = [], childName = 'children') => {
     const queue = [tree];
     while (queue.length) {
         const node = queue.shift();
@@ -74,91 +74,3 @@ const bfsForEachQueue = (tree, callback, nodes = [], childName = 'children') => 
         }
     }
 };
-/**
- * 广度优先搜索
- * @param tree 树
- * @param callback bfs每次遍历时调用的方法，会传入每个节点
- * @param searchMore 是否查找多个
- */
-const bfsSearch = (tree, callback, searchMore = false) => {
-    const queue = [tree];
-    const children = [];
-    while (queue.length) {
-        const child = queue.shift();
-        if (callback(child)) {
-            if (searchMore) {
-                children.push(child);
-            } else {
-                return child;
-            }
-        }
-        if (child.children) {
-            queue.push(...child.children);
-        }
-    }
-    return searchMore ? children : null;
-};
-const tree = {
-    id: 0,
-    child: [
-        {
-            id: 1,
-            child: [
-                {
-                    id: 2
-                },
-                {
-                    id: 3
-                }
-            ]
-        },
-        {
-            id: 4,
-            child: [
-                {
-                    id: 5,
-                    child: [
-                        {
-                            id: 6
-                        },
-                        {
-                            id: 7
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-};
-let nodes = [];
-let dfsForEachObj = {
-    doing: [],
-    result: []
-};
-dfsForEach(JSON.parse(JSON.stringify(tree)), (a, b) => dfsForEachObj.doing.push(`${a.id}=>${b.map(i => i.id)}`), nodes, 'child');
-dfsForEachObj.result = nodes.map(i => i.id);
-nodes = [];
-let dfsForEachStackObj = {
-    doing: [],
-    result: []
-};
-dfsForEachStack(JSON.parse(JSON.stringify(tree)), (a, b) => dfsForEachStackObj.doing.push(`${a.id}=>${b.map(i => i.id)}`), nodes, 'child');
-dfsForEachStackObj.result = nodes.map(i => i.id);
-nodes = [];
-let bfsForEachObj = {
-    doing: [],
-    result: []
-};
-bfsForEach(JSON.parse(JSON.stringify([tree])), (a, b) => bfsForEachObj.doing.push(`${a.id}=>${b.map(i => i.id)}`), nodes, 'child');
-bfsForEachObj.result = nodes.map(i => i.id);
-nodes = [];
-let bfsForEachQueueObj = {
-    doing: [],
-    result: []
-};
-bfsForEachQueue(JSON.parse(JSON.stringify(tree)), (a, b) => bfsForEachQueueObj.doing.push(`${a.id}=>${b.map(i => i.id)}`), nodes, 'child');
-bfsForEachQueueObj.result = nodes.map(i => i.id);
-console.log(JSON.stringify(dfsForEachObj));
-console.log(JSON.stringify(dfsForEachStackObj));
-console.log(JSON.stringify(bfsForEachObj));
-console.log(JSON.stringify(bfsForEachQueueObj));

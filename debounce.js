@@ -3,7 +3,7 @@
  * @param {*} fn
  * @param {*} delay
  */
-const debounce = (fun, delay = 300) => {
+export const debounce = (fun, delay = 300) => {
     let timer = null;
     return (...arg) => {
         if (timer) {

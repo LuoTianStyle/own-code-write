@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script src="./tree.js" type="module"></script>
+        <script type="module">
+            import { dfsForEach, dfsForEachStack, bfsForEach, bfsForEachQueue } from './tree.js';
+            const tree = {
+                id: 0,
+                child: [
+                    {
+                        id: 1,
+                        child: [
+                            {
+                                id: 2
+                            },
+                            {
+                                id: 3
+                            }
+                        ]
+                    },
+                    {
+                        id: 4,
+                        child: [
+                            {
+                                id: 5,
+                                child: [
+                                    {
+                                        id: 6
+                                    },
+                                    {
+                                        id: 7
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            };
+            let nodes = [];
+            let dfsForEachObj = {
+                doing: [],
+                result: []
+            };
+            dfsForEach(JSON.parse(JSON.stringify(tree)), (a, b) => dfsForEachObj.doing.push(`${a.id}=>${b.map(i => i.id)}`), nodes, 'child');
+            dfsForEachObj.result = nodes.map(i => i.id);
+            nodes = [];
+            let dfsForEachStackObj = {
+                doing: [],
+                result: []
+            };
+            dfsForEachStack(JSON.parse(JSON.stringify(tree)), (a, b) => dfsForEachStackObj.doing.push(`${a.id}=>${b.map(i => i.id)}`), nodes, 'child');
+            dfsForEachStackObj.result = nodes.map(i => i.id);
+            nodes = [];
+            let bfsForEachObj = {
+                doing: [],
+                result: []
+            };
+            bfsForEach(JSON.parse(JSON.stringify([tree])), (a, b) => bfsForEachObj.doing.push(`${a.id}=>${b.map(i => i.id)}`), nodes, 'child');
+            bfsForEachObj.result = nodes.map(i => i.id);
+            nodes = [];
+            let bfsForEachQueueObj = {
+                doing: [],
+                result: []
+            };
+            bfsForEachQueue(JSON.parse(JSON.stringify(tree)), (a, b) => bfsForEachQueueObj.doing.push(`${a.id}=>${b.map(i => i.id)}`), nodes, 'child');
+            bfsForEachQueueObj.result = nodes.map(i => i.id);
+            console.log(JSON.stringify(dfsForEachObj));
+            console.log(JSON.stringify(dfsForEachStackObj));
+            console.log(JSON.stringify(bfsForEachObj));
+            console.log(JSON.stringify(bfsForEachQueueObj));
+        </script>
+        <script src="./Promise.js"></script>
+        <script>
+            new MyPromise(resolve => {
+                delay(() => {
+                    const data = {
+                        msg: 'sucess',
+                        data: (new Date().getTime() + ' ').slice(-5, -1)
+                    };
+                    resolve(data);
+                }, 300);
+            })
+                .then(result => {
+                    console.log(result.data, 'MyPromise1');
+                    // 必须return 新的MyPromise
+                    return new MyPromise(resolve => {
+                        delay(() => {
+                            const data = {
+                                msg: 'sucess',
+                                data: (new Date().getTime() + ' ').slice(-5, -1)
+                            };
+                            resolve(data);
+                        }, 300);
+                    });
+                })
+                .then(result => console.log(result.data, 'MyPromise2'));
+        </script>
+    </body>
+</html>
