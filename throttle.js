@@ -27,6 +27,7 @@ const throttle = (fun, delay) => {
             timerPro = setTimeout(() => {
                 if (!isSend) {
                     fun.apply(this, args);
+                    isSend = true;
                     clearTimeout(timerPro);
                     timerPro = null;
                 }
